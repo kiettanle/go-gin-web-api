@@ -22,12 +22,6 @@ func NewUserController(userService services.UserService) UserController {
 func (uc *UserController) Create(ctx *gin.Context) {
 	var user models.User
 
-	// jsonData, e := ioutil.ReadAll(ctx.Request.Body)
-
-	// fmt.Println(e)
-
-	// fmt.Println("Body: ==>", string(jsonData))
-
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
@@ -42,7 +36,7 @@ func (uc *UserController) Create(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "User has been created successfully", "data": &user})
+	ctx.JSON(http.StatusCreated, &user)
 	return
 }
 
