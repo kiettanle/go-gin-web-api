@@ -3,14 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"go-gin-web-api/config"
 	"go-gin-web-api/controllers"
 	"go-gin-web-api/services"
 	"log"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 var (
@@ -25,21 +24,7 @@ var (
 
 func init() {
 	ctx = context.TODO()
-	connection := options.Client().ApplyURI("mongodb://admin:Init123456@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false")
-	mongoClient, err = mongo.Connect(ctx, connection)
-
-	if err != nil {
-		log.Fatal("Cannot connect to mongo db")
-	}
-
-	err = mongoClient.Ping(ctx, readpref.Primary())
-
-	if err != nil {
-		log.Fatal("Cannot ping to mongo db")
-	}
-
-	fmt.Println("Mongo db is ready to connect!!!")
-
+	mongoClient, _ := config.GetMongoClient()
 	userCollection = mongoClient.Database("UserManagement").Collection("users")
 	userService = services.NewUserService(userCollection, ctx)
 	userController = controllers.NewUserController(userService)
@@ -54,6 +39,7 @@ func main() {
 	apiV1 := server.Group("/api/v1")
 	userController.RegisterUserRoute(apiV1)
 
+	// TODO: Update to get PORT from .env
 	const PORT = 9090
 	log.Fatal(server.Run(":9090"))
 

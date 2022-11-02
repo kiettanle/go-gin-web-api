@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"go-gin-web-api/models"
 	"go-gin-web-api/services"
 	"net/http"
@@ -27,16 +26,14 @@ func (uc *UserController) Create(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Println(user)
-
-	err := uc.UserService.Create(&user)
+	createdUser, err := uc.UserService.Create(&user)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, &user)
+	ctx.JSON(http.StatusCreated, createdUser)
 	return
 }
 
@@ -54,15 +51,40 @@ func (uc *UserController) Get(ctx *gin.Context) {
 }
 
 func (uc *UserController) GetAll(ctx *gin.Context) {
-	ctx.JSON(200, "nil")
+	users, err := uc.UserService.GetAll()
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, users)
 }
 
 func (uc *UserController) Update(ctx *gin.Context) {
-	ctx.JSON(200, "nil")
+	id := ctx.Param("id")
+	var user models.User
+	if err := ctx.ShouldBindJSON(&user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	updatedUser, err := uc.UserService.Update(&id, &user)
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, updatedUser)
 }
 
 func (uc *UserController) Delete(ctx *gin.Context) {
-	ctx.JSON(200, "nil")
+	id := ctx.Param("id")
+
+	err := uc.UserService.Delete(&id)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "User has been deleted successfully."})
 }
 
 func (uc *UserController) RegisterUserRoute(rg *gin.RouterGroup) {
@@ -70,6 +92,6 @@ func (uc *UserController) RegisterUserRoute(rg *gin.RouterGroup) {
 	userRoute.POST("/", uc.Create)
 	userRoute.GET("/", uc.GetAll)
 	userRoute.GET("/:id", uc.Get)
-	userRoute.PUT("/", uc.Update)
-	userRoute.DELETE("/", uc.Delete)
+	userRoute.PUT("/:id", uc.Update)
+	userRoute.DELETE("/:id", uc.Delete)
 }
