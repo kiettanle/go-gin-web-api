@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"errors"
-	"fmt"
 	"go-gin-web-api/models"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -27,7 +26,6 @@ func (u *UserServiceImpl) Create(user *models.User) (*models.User, error) {
 
 	result, err := u.userCollection.InsertOne(u.ctx, user)
 
-	fmt.Println(result.InsertedID)
 	if err != nil {
 		return nil, err
 	}
