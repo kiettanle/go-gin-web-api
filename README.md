@@ -43,3 +43,34 @@ touch controllers/user.controller.go
 ```
 touch main.go
 ```
+11. Install Gin Swagger via https://github.com/swaggo/gin-swagger
+ ```
+ go get -u github.com/swaggo/swag/cmd/swag
+ 
+ OR
+ 
+ go install github.com/swaggo/swag/cmd/swag
+ ```
+ Then run: 
+ ```
+ go get -u github.com/swaggo/gin-swagger
+ go get -u github.com/swaggo/files
+ ```
+Add the comment to controller then run 
+```
+swag init
+```
+ Swag will parse comments and generate required files(docs folder and docs/doc.go) at /docs
+ Project tree will look like this
+ ```
+.
+...
+├── docs
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
+├── go.mod
+├── go.sum
+└── main.go
+...
+ ```

@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//go:generate mockgen --destination=./mocks/controllers/user.controller.go controllers UserController
 type UserController struct {
 	UserService services.UserService
 }

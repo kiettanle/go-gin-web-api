@@ -1,0 +1,20 @@
+info:
+  contact: {}
+paths:
+  /health-check:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - Health Check
+swagger: "2.0"
