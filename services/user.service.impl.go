@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"go-gin-web-api/models"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -24,6 +25,7 @@ func NewUserService(userCollection *mongo.Collection, ctx context.Context) UserS
 
 func (u *UserServiceImpl) Create(user *models.User) (*models.User, error) {
 
+	time.Sleep(time.Second)
 	result, err := u.userCollection.InsertOne(u.ctx, user)
 
 	if err != nil {
