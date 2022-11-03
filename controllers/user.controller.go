@@ -21,6 +21,17 @@ func NewUserController(userService services.UserService) UserController {
 	}
 }
 
+// @BasePath /api/v1
+
+// Create User godoc
+// @Summary Create User
+// @Schemes
+// @Description Create a new user
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[object]interface{}
+// @Router /api/v1/users [POST]
 func (uc *UserController) Create(ctx *gin.Context) {
 	var user models.User
 

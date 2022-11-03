@@ -1,6 +1,22 @@
 info:
   contact: {}
 paths:
+  /api/v1/users:
+    post:
+      consumes:
+      - application/json
+      description: Create new user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new user
+      tags:
+      - Users
   /health-check:
     get:
       consumes:
