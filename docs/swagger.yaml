@@ -5,7 +5,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create new user
+      description: Create a new user
       produces:
       - application/json
       responses:
@@ -14,7 +14,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Create new user
+      summary: Create User
       tags:
       - Users
   /health-check:

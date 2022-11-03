@@ -18,7 +18,7 @@ const docTemplate = `{
     "paths": {
         "/api/v1/users": {
             "post": {
-                "description": "Create new user",
+                "description": "Create a new user",
                 "consumes": [
                     "application/json"
                 ],
@@ -28,7 +28,7 @@ const docTemplate = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "Create new user",
+                "summary": "Create User",
                 "responses": {
                     "200": {
                         "description": "OK",
