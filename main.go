@@ -14,7 +14,6 @@ import (
 	"go-gin-web-api/controllers"
 	"go-gin-web-api/docs"
 	"go-gin-web-api/services"
-	"go-gin-web-api/utils"
 )
 
 var (
@@ -56,7 +55,7 @@ func main() {
 	defer mongoClient.Disconnect(ctx)
 
 	// Health check
-	server.GET("api/v1/health-check", utils.HealthCheck)
+	server.GET("api/v1/health-check", controllers.HealthCheck)
 
 	apiV1 := server.Group("/api/v1")
 	userController.RegisterUserRoute(apiV1)
