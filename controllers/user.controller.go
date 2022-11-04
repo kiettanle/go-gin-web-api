@@ -30,8 +30,9 @@ func NewUserController(userService services.UserService) UserController {
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Success 200 {object} map[object]interface{}
-// @Router /api/v1/users [POST]
+// @Param user body models.User true "User JSON"
+// @Success 200 {object}  models.User
+// @Router /users [POST]
 func (uc *UserController) Create(ctx *gin.Context) {
 	var user models.User
 

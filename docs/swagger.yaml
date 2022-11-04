@@ -1,22 +1,39 @@
+basePath: /api/v1
+definitions:
+  models.Address:
+    properties:
+      city:
+        type: string
+      pincode:
+        type: integer
+      state:
+        type: string
+    type: object
+  models.User:
+    properties:
+      address:
+        $ref: '#/definitions/models.Address'
+      age:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+host: localhost:9090
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Go Gin Web API
+  version: "1.0"
 paths:
-  /api/v1/users:
-    post:
-      consumes:
-      - application/json
-      description: Create a new user
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Create User
-      tags:
-      - Users
   /health-check:
     get:
       consumes:
@@ -28,9 +45,30 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            type: string
       summary: Show the status of server.
       tags:
       - Health Check
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User JSON
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create User
+      tags:
+      - Users
 swagger: "2.0"

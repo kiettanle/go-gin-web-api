@@ -10,36 +10,21 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/users": {
-            "post": {
-                "description": "Create a new user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Create User",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/health-check": {
             "get": {
                 "description": "get the status of server.",
@@ -57,10 +42,76 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "description": "Create a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create User",
+                "parameters": [
+                    {
+                        "description": "User JSON",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Address": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "pincode": {
+                    "type": "integer"
+                },
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/models.Address"
+                },
+                "age": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         }
@@ -69,12 +120,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:9090",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Go Gin Web API",
+	Description:      "This is a sample server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
