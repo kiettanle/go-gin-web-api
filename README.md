@@ -74,3 +74,10 @@ swag init
 └── main.go
 ...
  ```
+ # Note
+```
+echo $(go env GOPATH)
+echo $(go env GOROOT)
+
+```
+ 

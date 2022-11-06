@@ -1,8 +1,9 @@
-package config
+package database
 
 import (
 	"context"
 	"fmt"
+	"go-gin-web-api/config"
 	"log"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -20,7 +21,8 @@ var (
 func GetMongoClient() (*mongo.Client, error) {
 	ctx = context.TODO()
 	// TODO: Update to get url from .env
-	connection := options.Client().ApplyURI("mongodb://admin:Init123456@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false")
+	connection := options.Client().ApplyURI(config.GetConfig().Uri)
+
 	mongoClient, err = mongo.Connect(ctx, connection)
 
 	if err != nil {

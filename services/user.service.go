@@ -1,3 +1,5 @@
+//go:generate mockgen --source user.service.go --destination mock/user.service_mock.go  --package mock
+
 package services
 
 import "go-gin-web-api/models"
