@@ -48,7 +48,6 @@ func (uc *UserController) Create(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, createdUser)
-	return
 }
 
 func (uc *UserController) Get(ctx *gin.Context) {
